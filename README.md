@@ -1,18 +1,26 @@
-# TallStackUI
+# Storage Viewer
 
-<p align="center"><a href="https://tallstackui.com" target="_blank"><img src="https://raw.githubusercontent.com/tallstackui/website/main/arts/tallstackui.svg" width="500"></a></p>
+## Architectural Overview
 
-<p align="center">
-    <img alt="Packagist Downloads" src="https://img.shields.io/packagist/dt/tallstackui/tallstackui?style=for-the-badge">
-    <a href="https://laravel.com"><img alt="Laravel v10.x" src="https://img.shields.io/badge/Laravel-^v10.x-FF2D20?style=for-the-badge&logo=laravel"></a>
-    <a href="https://php.net"><img alt="PHP 8.1" src="https://img.shields.io/badge/PHP-^8.1-777BB4?style=for-the-badge&logo=php"></a>
-    <a href="https://livewire.laravel.com"><img alt="Livewire v3.x" src="https://img.shields.io/badge/Livewire-^v3.x-FB70A9?style=for-the-badge"></a>
-</p>
+The core objective of this architecture is the strict **Separation of Concerns**. By decoupling the data management from the rendering logic, we ensure the system remains maintainable and that the 3D module can be repurposed for other operational visualizations with minimal friction.
 
-## Welcome
+### Component Interoperability
 
-This is the repository for the official TallStackUI starter kit for Laravel 12.
+The system is structured into three distinct layers that communicate through well-defined interfaces:
 
-## Documentation
+#### 1. The Persistence Layer (Backend)
+Built on **Laravel**, this layer serves as the single source of truth. 
+* **Positioning Calculator Service:** Centralizes the geometric logic, translating logical warehouse coordinates (rows, columns, levels) into a deterministic 3D coordinate system ($x, y, z$). 
+* **Consistency:** This ensures that the layout remains consistent across all client sessions and administrative views.
 
-[Discover the starter kit by visiting the official documentation on the TallStackUI website.](https://tallstackui.com/docs/v2/starter-kit)
+#### 2. The Synchronization Layer (The Bridge)
+Utilizing the **TALL stack's** reactive capabilities, this layer manages the state transition between the server and the client.
+* **Livewire:** Orchestrates the data flow, delivering localized JSON payloads to the frontend.
+* **Alpine.js:** Acts as the high-speed bridge, monitoring the 3D environment's state and invoking server-side methods (via `$wire`) to persist manual adjustments without requiring a page reload.
+
+#### 3. The Rendering Module (3D Engine)
+An isolated, modular JavaScript environment powered by **Three.js**. 
+* **Data-Agnostic Design:** The engine consumes coordinates and renders meshes without a direct dependency on the database schema. 
+* **Sub-Modules:** Internal components handle specialized tasks such as camera optics, lighting, and real-time interaction.
+ <img width="791" height="771" alt="ezgif-6079f476c8d3b452" src="https://github.com/user-attachments/assets/9bb9b2db-bfbe-4aeb-83ec-ddd8fad298ba" />
+
