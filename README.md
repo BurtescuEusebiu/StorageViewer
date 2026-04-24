@@ -22,5 +22,5 @@ Utilizing the **TALL stack's** reactive capabilities, this layer manages the sta
 An isolated, modular JavaScript environment powered by **Three.js**. 
 * **Data-Agnostic Design:** The engine consumes coordinates and renders meshes without a direct dependency on the database schema. 
 * **Sub-Modules:** Internal components handle specialized tasks such as camera optics, lighting, and real-time interaction.
- <img width="791" height="771" alt="ezgif-6079f476c8d3b452" src="https://github.com/user-attachments/assets/9bb9b2db-bfbe-4aeb-83ec-ddd8fad298ba" />
+<img width="791" height="771" alt="Arhi drawio" src="https://github.com/user-attachments/assets/7bf740d7-a32f-487b-b391-77cec1645c0b" />
 
